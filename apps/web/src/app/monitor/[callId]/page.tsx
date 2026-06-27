@@ -8,11 +8,14 @@ export default async function MonitorCallPage({
   const { callId } = await params;
 
   return (
-    <div className="mx-auto max-w-7xl space-y-6">
+    <div className="space-y-6">
       <div>
-        <h1 className="text-3xl font-bold tracking-tight">Call Monitor</h1>
-        <p className="mt-2 text-muted-foreground">
-          Interactive live chat, agent activity, and takeover controls.
+        <p className="text-sm font-medium text-muted-foreground">Session</p>
+        <h1 className="mt-1 text-3xl font-semibold tracking-tight">
+          Call <span className="text-gradient">monitor</span>
+        </h1>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Live chat, agent activity, and takeover controls.
         </p>
       </div>
       <MonitorDashboard callId={callId} />

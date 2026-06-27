@@ -21,7 +21,7 @@ import {
   Radio,
   UserRound,
 } from "lucide-react";
-import type { RemoteParticipant, Room } from "livekit-client";
+import type { RemoteParticipant } from "livekit-client";
 import { ParticipantEvent, RoomEvent } from "livekit-client";
 import { apiFetch } from "@/lib/api";
 import {
@@ -200,19 +200,19 @@ function MonitorRoom({
         }
       />
 
-      <div className="grid gap-4 xl:grid-cols-[1fr_320px]">
-        <Card className="flex min-h-[560px] flex-col overflow-hidden">
-          <CardHeader className="border-b border-border pb-4">
+      <div className="grid gap-4 xl:grid-cols-[1fr_300px]">
+        <Card className="flex min-h-[560px] flex-col overflow-hidden border-border/80 bg-white shadow-sm">
+          <CardHeader className="border-b border-border/80 bg-white pb-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div className="flex items-center gap-3">
-                <Avatar className="h-10 w-10 bg-primary/20">
-                  <AvatarFallback className="bg-primary/20 text-primary">
+                <Avatar className="h-10 w-10 border border-border bg-primary/10 shadow-sm">
+                  <AvatarFallback className="bg-primary/10 text-primary">
                     <Radio className="h-5 w-5" />
                   </AvatarFallback>
                 </Avatar>
                 <div>
-                  <CardTitle className="text-base">Live Conversation</CardTitle>
-                  <CardDescription>Real-time caller ↔ agent chat</CardDescription>
+                  <CardTitle className="text-base">Live conversation</CardTitle>
+                  <CardDescription>Real-time caller and agent chat</CardDescription>
                 </div>
               </div>
               <div className="flex items-center gap-2">
@@ -227,7 +227,7 @@ function MonitorRoom({
             </div>
           </CardHeader>
 
-          <CardContent className="flex flex-1 flex-col p-0">
+          <CardContent className="flex flex-1 flex-col bg-secondary/20 p-0">
             <ScrollArea className="flex-1 px-4 py-4">
               {!historyLoaded ? (
                 <div className="space-y-4 p-2">
@@ -249,7 +249,7 @@ function MonitorRoom({
               )}
             </ScrollArea>
 
-            <div className="border-t border-border bg-card/50 px-4 py-3">
+            <div className="border-t border-border/80 bg-white px-4 py-3">
               <div className="flex items-center justify-between gap-3 text-xs text-muted-foreground">
                 <span className="flex items-center gap-1.5">
                   <Headphones className="h-3.5 w-3.5" />
@@ -262,49 +262,49 @@ function MonitorRoom({
         </Card>
 
         <div className="space-y-4">
-          <Card>
+          <Card className="border-border/80 bg-white shadow-sm">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-base">
                 <Activity className="h-4 w-4 text-primary" />
-                Agent Activity
+                Agent activity
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-3 text-sm">
-              <div className="rounded-lg border border-border bg-secondary/40 p-3">
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">State</p>
+              <div className="rounded-xl border border-border bg-secondary/30 p-3">
+                <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">State</p>
                 <div className="mt-1">
                   <AgentStateIndicator state={agentState} />
                 </div>
               </div>
-              <div className="rounded-lg border border-border bg-secondary/40 p-3">
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">Intent</p>
+              <div className="rounded-xl border border-border bg-secondary/30 p-3">
+                <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Intent</p>
                 <p className="mt-1 font-medium">{intent}</p>
               </div>
-              <div className="rounded-lg border border-border bg-secondary/40 p-3">
-                <p className="text-xs uppercase tracking-wide text-muted-foreground">Current action</p>
-                <p className="mt-1 text-xs leading-relaxed">{action}</p>
+              <div className="rounded-xl border border-border bg-secondary/30 p-3">
+                <p className="text-[11px] font-medium uppercase tracking-wide text-muted-foreground">Current action</p>
+                <p className="mt-1 text-xs leading-relaxed text-muted-foreground">{action}</p>
               </div>
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border-border/80 bg-white shadow-sm">
             <CardHeader className="pb-3">
               <CardTitle className="flex items-center gap-2 text-base">
-                <UserRound className="h-4 w-4 text-accent" />
-                Booking Details
+                <UserRound className="h-4 w-4 text-primary" />
+                Booking details
               </CardTitle>
               <CardDescription>Fields collected during the call</CardDescription>
             </CardHeader>
             <CardContent className="space-y-2 text-sm">
               {Object.keys(bookingFields).length === 0 ? (
-                <p className="rounded-lg border border-dashed border-border px-3 py-6 text-center text-muted-foreground">
+                <p className="rounded-xl border border-dashed border-border bg-white px-3 py-6 text-center text-muted-foreground">
                   No booking data yet
                 </p>
               ) : (
                 Object.entries(bookingFields).map(([key, value]) => (
                   <div
                     key={key}
-                    className="flex items-start justify-between gap-3 rounded-lg border border-border bg-secondary/30 px-3 py-2"
+                    className="flex items-start justify-between gap-3 rounded-xl border border-border bg-white px-3 py-2.5 shadow-sm"
                   >
                     <span className="text-muted-foreground capitalize">{key}</span>
                     <span className="text-right font-medium">{value}</span>
@@ -314,21 +314,21 @@ function MonitorRoom({
             </CardContent>
           </Card>
 
-          <Card>
+          <Card className="border-border/80 bg-white shadow-sm">
             <CardHeader className="pb-3">
               <CardTitle className="text-base">Controls</CardTitle>
             </CardHeader>
             <CardContent className="flex flex-col gap-2">
               {!canPublish && callStatus === "connected" && (
-                <Button onClick={handleTakeover} disabled={takingOver} className="w-full">
+                <Button onClick={handleTakeover} disabled={takingOver} className="w-full rounded-xl">
                   <Mic className="h-4 w-4" />
-                  {takingOver ? "Taking over..." : "Take Over Call"}
+                  {takingOver ? "Taking over..." : "Take over call"}
                 </Button>
               )}
               {callStatus !== "ended" && (
-                <Button variant="destructive" onClick={handleEndCall} className="w-full">
+                <Button variant="destructive" onClick={handleEndCall} className="w-full rounded-xl">
                   <PhoneOff className="h-4 w-4" />
-                  End Call
+                  End call
                 </Button>
               )}
             </CardContent>
@@ -339,9 +339,9 @@ function MonitorRoom({
       {summary && (
         <>
           <Separator className="my-6" />
-          <Card>
+          <Card className="border-border/80 bg-white shadow-sm">
             <CardHeader>
-              <CardTitle>Post-Call Summary</CardTitle>
+              <CardTitle>Post-call summary</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-sm leading-relaxed text-muted-foreground">{summary}</p>
@@ -452,8 +452,8 @@ export function MonitorDashboard({ callId }: { callId: string }) {
 
   if (error) {
     return (
-      <Card>
-        <CardContent className="py-8 text-center text-red-400">{error}</CardContent>
+      <Card className="border-border/80 bg-white shadow-sm">
+        <CardContent className="py-8 text-center text-red-600">{error}</CardContent>
       </Card>
     );
   }
