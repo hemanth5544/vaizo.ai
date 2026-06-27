@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum CallStatus {
+  connected
+  transferring
+  takeover
+  ended
+}
+
+enum AppointmentStatus {
+  confirmed
+  cancelled
+}
+
+model CallSession {
+  id        String     @id @default(cuid())
+  roomName  String     @unique @map("room_name")
+  status    CallStatus @default(connected)
+  startedAt DateTime   @default(now()) @map("started_at")
+  endedAt   DateTime?  @map("ended_at")
+
+  events       CallEvent[]
+  appointments Appointment[]
+  summary      CallSummary?
+
+  @@map("call_sessions")
+}
+
+model CallEvent {
+  id        String   @id @default(cuid())
+  callId    String   @map("call_id")
+  type      String
+  payload   Json
+  createdAt DateTime @default(now()) @map("created_at")
+
+  call CallSession @relation(fields: [callId], references: [id], onDelete: Cascade)
+
+  @@index([callId])
+  @@map("call_events")
+}
+
+model Appointment {
+  id          String            @id @default(cuid())
+  name        String
+  reason      String
+  scheduledAt DateTime          @map("scheduled_at")
+  phone       String
+  status      AppointmentStatus @default(confirmed)
+  callId      String?           @map("call_id")
+  createdAt   DateTime          @default(now()) @map("created_at")
+
+  call CallSession? @relation(fields: [callId], references: [id], onDelete: SetNull)
+
+  @@index([scheduledAt])
+  @@map("appointments")
+}
+
+model CallSummary {
+  id          String   @id @default(cuid())
+  callId      String   @unique @map("call_id")
+  summaryText String   @map("summary_text")
+  intents     String[]
+  bookingId   String?  @map("booking_id")
+  createdAt   DateTime @default(now()) @map("created_at")
+
+  call CallSession @relation(fields: [callId], references: [id], onDelete: Cascade)
+
+  @@map("call_summaries")
+}
