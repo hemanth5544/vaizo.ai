@@ -1,0 +1,12 @@
+# Optional: only needed if you prefer containerized Postgres.
+# The default setup uses a native local PostgreSQL instance instead.
+#
+# services:
+#   postgres:
+#     image: postgres:16-alpine
+#     ports:
+#       - "5433:5432"
+#     environment:
+#       POSTGRES_USER: vaizo
+#       POSTGRES_PASSWORD: vaizo
+#       POSTGRES_DB: vaizo
